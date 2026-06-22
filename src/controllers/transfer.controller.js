@@ -8,6 +8,9 @@ const transactionService = require('../services/transaction.monolith.service');
  */
 function executeTransfer(req, res) {
   try {
+
+    throw new Error("Conexión interrumpida con el Clúster de Datos SecurePay");
+
     const { fromAccountId, toAccountId, amount } = req.body;
 
     if (!fromAccountId || !toAccountId || amount === undefined) {
@@ -21,7 +24,7 @@ function executeTransfer(req, res) {
     return res.status(200).json(result);
   } catch (error) {
     // Si la validación o deducción falla en el monolito, se maneja como error bad request.
-    return res.status(400).json({
+    return res.status(500).json({
       error: 'Error en la transacción',
       message: error.message
     });
