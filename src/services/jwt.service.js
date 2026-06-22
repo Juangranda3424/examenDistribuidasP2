@@ -16,8 +16,15 @@ const path = require('path');
 function signToken(user) {
   // TODO (Estudiante): Implementar la carga de 'private.pem' y la firma con algoritmo RS256
   // Ejemplo:
-  // const privateKey = fs.readFileSync(path.join(__dirname, '../../private.pem'), 'utf8');
-  // return jwt.sign(user, privateKey, { algorithm: 'RS256', expiresIn: '1h' });
+  const privateKey = fs.readFileSync(path.join(__dirname, '../../private.pem'), 'utf8');
+
+  const payload = {
+    sub: user.id,
+    username: user.username,
+    email: user.email
+  };
+
+  return jwt.sign(payload, privateKey, { algorithm: 'RS256', expiresIn: '2m' });
   
   throw new Error('Función signToken(user) no implementada. TODO (Estudiante).');
 }
@@ -36,8 +43,8 @@ function signToken(user) {
 function verifyToken(token) {
   // TODO (Estudiante): Implementar la carga de 'public.pem' y verificación con algoritmo RS256
   // Ejemplo:
-  // const publicKey = fs.readFileSync(path.join(__dirname, '../../public.pem'), 'utf8');
-  // return jwt.verify(token, publicKey, { algorithms: ['RS256'] });
+  const publicKey = fs.readFileSync(path.join(__dirname, '../../public.pem'), 'utf8');
+    return jwt.verify(token, publicKey, { algorithms: ['RS256'] });
 
   throw new Error('Función verifyToken(token) no implementada. TODO (Estudiante).');
 }
