@@ -33,7 +33,7 @@ function authMiddleware(req, res, next) {
 
   try {
     // TODO (Estudiante):
-    // 1. Invocar jwtService.verifyToken(token).
+    const decodedToken = jwtService.verifyToken(token);
     // 2. Adjuntar el payload de usuario a la petición, ej. req.user = decodedToken.
     // 3. Quitar o comentar la siguiente línea temporal de prueba y habilitar next() bajo validación exitosa.
 
@@ -41,6 +41,7 @@ function authMiddleware(req, res, next) {
     
     // NOTA TEMPORAL: Por ahora el middleware deja pasar la petición sin validar para evitar bloqueos iniciales,
     // pero el estudiante debe implementar la validación criptográfica correspondiente.
+    req.user = decodedToken;
     next();
   } catch (error) {
     // TODO (Estudiante): Retornar una respuesta adecuada según el tipo de error (ej: Expirado o Inválido)
