@@ -3,7 +3,9 @@
 // const Sentry = require('@sentry/node');
 // Sentry.init({ dsn: process.env.SENTRY_DSN, tracesSampleRate: 1.0 });
 
+require('./src/instrument'); // <-- ESTA LINEA INICIALIZA SENTRY ANTES DE CUALQUIER OTRA IMPORTACIÓN
 require('dotenv').config();
+const Sentry = require('@sentry/node'); // <-- Importar Sentry después de la inicialización
 const express = require('express');
 const routes = require('./src/routes');
 
@@ -32,6 +34,23 @@ app.use((err, req, res, next) => {
   res.status(500).json({
     error: 'Error interno del servidor',
     message: err.message
+  });
+});
+
+// Manejador de errores de Sentry (justo después de las rutas)
+Sentry.setupExpressErrorHandler(app);
+
+app.use(async (err, req, res, next) => {
+  console.error(err.stack);
+
+  // 🚀 FORZAR EL ENVÍO INMEDIATO DEL ERROR A LOS SERVIDORES DE SENTRY:
+  // Esto obliga a vaciar la cola de eventos en segundo plano antes de responder al cliente.
+  await Sentry.flush(2000); 
+
+  res.status(500).json({
+    error: true,
+    message: err.message || "Fallo operacional interno del servidor.",
+    eventId: res.sentry // Sentry inyecta el ID aquí
   });
 });
 
