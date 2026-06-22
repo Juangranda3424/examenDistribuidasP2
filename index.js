@@ -27,16 +27,6 @@ app.get('/', (req, res) => {
   });
 });
 
-// Manejo centralizado de excepciones y reporte a Sentry
-// TODO (Estudiante): Integrar el middleware de errores de Sentry: Sentry.setupExpressErrorHandler(app);
-app.use((err, req, res, next) => {
-  console.error('[SERVER ERROR]:', err);
-  res.status(500).json({
-    error: 'Error interno del servidor',
-    message: err.message
-  });
-});
-
 // Manejador de errores de Sentry (justo después de las rutas)
 Sentry.setupExpressErrorHandler(app);
 
@@ -53,6 +43,18 @@ app.use(async (err, req, res, next) => {
     eventId: res.sentry // Sentry inyecta el ID aquí
   });
 });
+
+// Manejo centralizado de excepciones y reporte a Sentry
+// TODO (Estudiante): Integrar el middleware de errores de Sentry: Sentry.setupExpressErrorHandler(app);
+app.use((err, req, res, next) => {
+  console.error('[SERVER ERROR]:', err);
+  res.status(500).json({
+    error: 'Error interno del servidor',
+    message: err.message
+  });
+});
+
+
 
 app.listen(PORT, () => {
   console.log(`\n======================================================`);

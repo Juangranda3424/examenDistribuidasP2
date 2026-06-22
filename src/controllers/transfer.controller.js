@@ -24,10 +24,7 @@ function executeTransfer(req, res) {
     return res.status(200).json(result);
   } catch (error) {
     // Si la validación o deducción falla en el monolito, se maneja como error bad request.
-    return res.status(500).json({
-      error: 'Error en la transacción',
-      message: error.message
-    });
+    return next(error);
   }
 }
 

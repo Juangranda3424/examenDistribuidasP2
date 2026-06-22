@@ -1,6 +1,7 @@
 # C1: Refactorización SOLID (SRP & DIP)
 
 Refactorización de la arquitectura del monolito para cumplir con los principios SOLID, específicamente el Principio de Responsabilidad Única (SRP) y el Principio de Inversión de Dependencias (DIP). Esto implica separar las responsabilidades en clases y módulos distintos, y depender de abstracciones en lugar de implementaciones concretas.
+
 ![alt text](image.png)
 
 # C2: Autenticación Stateless (JWT RS256)
