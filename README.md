@@ -19,7 +19,7 @@ Validadcion de envio de token JWT en cada request a los endpoints del monolito, 
 
 Ingreso de Sentry para el tracking de errores y excepciones en el monolito, lo que permite una mejor observabilidad y monitoreo del sistema. Esto facilita la identificación y resolución de problemas en producción.
 
-![alt text](image-3.png)
+![alt text](image-5.png)
 
 # C4: GitOps y Trazabilidad DevOps
 
